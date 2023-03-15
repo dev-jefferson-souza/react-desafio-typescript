@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { RoundedButton } from "../../components/Buttons/RoundedButton";
 import { Checkbox } from "../../components/Checkbox";
 import { CommonInput } from "../../components/Inputs/CommonInput";
@@ -88,12 +89,12 @@ export const Login = () => {
             title="Entrar"
             isDisabled={isDisabledSubmit}
           />
+          <Spacer y="36px" x="0px" />
+          <div>
+            <p>Não possui uma conta?</p>
+            <Link to="/register">Criar conta</Link>
+          </div>
         </span>
-        <Spacer y="36px" x="0px" />
-        <div>
-          <p>Não possui uma conta?</p>
-          <a href="">Criar conta</a>
-        </div>
       </Form>
       {/* <button onClick={() => showError()}>n</button> */}
     </Container>

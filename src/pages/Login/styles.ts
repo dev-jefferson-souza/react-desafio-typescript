@@ -22,8 +22,9 @@ export const Container = styled.div`
 `;
 
 export const Form = styled.form`
+  position: relative;
   width: 400px;
-  min-height: 250px;
+  min-height: 470px;
   background: rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 
@@ -40,9 +41,18 @@ export const Form = styled.form`
   }
 
   span {
-    display: block;
-    width: fit-content;
-    margin: auto;
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+
+    button {
+      max-width: fit-content;
+    }
   }
 
   div:last-child {

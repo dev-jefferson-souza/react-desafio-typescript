@@ -1,5 +1,6 @@
 import { Notify } from "notiflix";
 import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import userService from "../../api/services/userService";
 import { RoundedButton } from "../../components/Buttons/RoundedButton";
 import { CommonInput } from "../../components/Inputs/CommonInput";
@@ -14,6 +15,8 @@ export const Register = () => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [isDisabledSubmit, setIsDisabledSubmit] = useState(true);
+
+  const navigate = useNavigate();
 
   function handleLoginChange(value: string) {
     setLogin(value);
@@ -30,9 +33,6 @@ export const Register = () => {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    // const response = await userService.userGET(1027);
-    // console.log(response.data);
-
     const user: userModel = {
       login: login,
       password: password,
@@ -43,7 +43,7 @@ export const Register = () => {
         const response = await userService.userPOST(user);
         {
           response.status === 201
-            ? Notify.success("Conta criada com sucesso!")
+            ? (Notify.success("Conta criada com sucesso!"), navigate("/login"))
             : null;
         }
       } catch (e) {
@@ -100,14 +100,13 @@ export const Register = () => {
             title="Criar conta"
             isDisabled={isDisabledSubmit}
           />
+          <Spacer y="36px" x="0px" />
+          <div>
+            <p>Já possui uma conta?</p>
+            <Link to="/">Acessar</Link>
+          </div>
         </span>
-        <Spacer y="36px" x="0px" />
-        <div>
-          <p>Já possui uma conta?</p>
-          <a href="">Acessar</a>
-        </div>
       </Form>
-      {/* <button onClick={() => showError()}>n</button> */}
     </Container>
   );
 };
