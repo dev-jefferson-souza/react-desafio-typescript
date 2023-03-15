@@ -1,16 +1,13 @@
+import axios from "axios";
 import { Notify } from "notiflix";
-import { createContext, ReactNode, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import userService from "../api/services/userService";
+import { AuthContextType, AuthProviderProps } from "../models/authContext";
 import { signInProps } from "../models/signIn";
 import { userModel } from "../models/userModel";
 
-type AuthContextType = {
-  token: string | null;
-  setToken: (token: string | null) => void;
-  user: userModel | null;
-  setUser: (user: userModel | null) => void;
-  signIn: (user: signInProps) => Promise<void>;
-};
+const LOCAL_STORAGE_TOKEN_KEY = "@neki-desafio-token";
+const LOCAL_STORAGE_USER_KEY = "@neki-desafio-user";
 
 export const AuthContext = createContext<AuthContextType>({
   token: null,
@@ -20,52 +17,43 @@ export const AuthContext = createContext<AuthContextType>({
   signIn: async () => {},
 });
 
-type AuthProviderProps = {
-  children: ReactNode;
-};
-
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(
-    localStorage.getItem("token")
+    () => localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY) || null
   );
-  const [user, setUser] = useState<userModel | null>(null);
 
-  const handleTokenChange = (newToken: string | null) => {
-    setToken(newToken);
-    localStorage.setItem("token", newToken || "");
+  const [user, setUser] = useState<userModel | null>(() =>
+    JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_KEY) || "null")
+  );
 
-    // // Decodifica o token e obtém as informações do usuário
-    // const decodedToken: any = jwt_decode(newToken || "");
-    // console.log(decodedToken);
-    // setUser(decodedToken.user);
-  };
+  useEffect(() => {
+    token !== null
+      ? (axios.defaults.headers.common.Authorization = token)
+      : delete axios.defaults.headers.common.Authorization;
+  }, [token]);
 
   async function signIn(request: signInProps) {
-    setToken(null);
-
     try {
       const response = await userService.userLOGIN(request.user);
       if (response.status === 200) {
         Notify.success(`Bem vindo, ${request.user.login}!`);
-        {
-          request.savePassword === true
-            ? handleTokenChange(response.data.token)
-            : setToken(null);
+        if (request.savePassword === true) {
+          localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, response.data.token);
+          localStorage.setItem(
+            LOCAL_STORAGE_USER_KEY,
+            JSON.stringify(request.user)
+          );
         }
-
+        setToken(response.data.token);
         setUser(response.data.usuario);
       }
     } catch (err) {
       Notify.failure("Usuário ou senha incorreta!");
-    } finally {
-      console.log(token);
     }
   }
 
   return (
-    <AuthContext.Provider
-      value={{ token, setToken: handleTokenChange, user, setUser, signIn }}
-    >
+    <AuthContext.Provider value={{ token, setToken, user, setUser, signIn }}>
       {children}
     </AuthContext.Provider>
   );
