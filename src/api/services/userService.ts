@@ -1,4 +1,4 @@
-import { userModel } from "../../models/userModel";
+import { userModel, userModelLogin } from "../../models/userModel";
 import { api } from "../api";
 
 const uri = "/user/";
@@ -19,7 +19,7 @@ function userDELETE(id: number) {
   return api.delete(uri + id);
 }
 
-function userLOGIN(user: userModel) {
+function userLOGIN(user: userModelLogin) {
   return api.post(uri + "login", user);
 }
 

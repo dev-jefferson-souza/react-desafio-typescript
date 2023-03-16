@@ -1,5 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
+import { Blob } from "./components/Blob";
 import { AuthProvider } from "./context/AuthContext";
 import { Router } from "./routes/router";
 import { GlobalStyle } from "./styles/global";
@@ -11,6 +12,7 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <GlobalStyle />
+          <Blob />
           <Router />
         </BrowserRouter>
       </AuthProvider>

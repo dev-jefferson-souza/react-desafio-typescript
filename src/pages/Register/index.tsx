@@ -8,7 +8,7 @@ import { SecureInput } from "../../components/Inputs/SecureInput";
 import { Spacer } from "../../components/Spacer";
 import { userModel } from "../../models/userModel";
 
-import { Blob, Container, Form } from "./styles";
+import { Container, Form } from "./styles";
 
 export const Register = () => {
   const [login, setLogin] = useState("");
@@ -69,7 +69,6 @@ export const Register = () => {
 
   return (
     <Container>
-      <Blob />
       <Form onSubmit={handleSubmit}>
         <h1>Criar conta</h1>
         <h2>Login</h2>

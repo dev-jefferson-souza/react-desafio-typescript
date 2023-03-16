@@ -1,24 +1,36 @@
+import * as Dialog from "@radix-ui/react-dialog";
 import { useContext } from "react";
+import { SkillsModal } from "../../components/Modal";
 import { AuthContext } from "../../context/AuthContext";
+import {
+  Container,
+  LogoutIcon,
+  OpenModalIcon,
+  UserSkillsContainer,
+} from "./styles";
 
 export const Home = () => {
-  const { setUser } = useContext(AuthContext);
-  const { user, token } = useContext(AuthContext);
+  const { setUser, setToken } = useContext(AuthContext);
 
   function logout() {
     localStorage.clear();
-    console.log(user);
-    console.log(token);
-    // alert(user);
     setUser(null);
+    setToken(null);
   }
 
   return (
-    <div>
-      <h1>Essa é a home</h1>
-      <a onClick={logout} href="#">
-        Logout
-      </a>
-    </div>
+    <Container>
+      <LogoutIcon onClick={logout} title="Sair da conta" />
+      <Dialog.Root>
+        <Dialog.Trigger asChild>
+          <OpenModalIcon title="Abrir modal" />
+        </Dialog.Trigger>
+
+        <SkillsModal />
+      </Dialog.Root>
+      <UserSkillsContainer>
+        <h1>Essas são suas habilidades</h1>
+      </UserSkillsContainer>
+    </Container>
   );
 };

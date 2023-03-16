@@ -1,6 +1,6 @@
-import { userModel } from "./userModel";
+import { userModelLogin } from "./userModel";
 
 export interface signInProps {
   savePassword: boolean;
-  user: userModel;
+  user: userModelLogin;
 }

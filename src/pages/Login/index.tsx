@@ -7,8 +7,9 @@ import { SecureInput } from "../../components/Inputs/SecureInput";
 import { Spacer } from "../../components/Spacer";
 import { AuthContext } from "../../context/AuthContext";
 import { signInProps } from "../../models/signIn";
+import { userModelLogin } from "../../models/userModel";
 
-import { Blob, Container, Form } from "./styles";
+import { Container, Form } from "./styles";
 
 export const Login = () => {
   const [login, setLogin] = useState("");
@@ -32,12 +33,14 @@ export const Login = () => {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    const user: userModelLogin = {
+      login: login,
+      password: password,
+    };
+
     const request: signInProps = {
       savePassword: savePassword,
-      user: {
-        login: login,
-        password: password,
-      },
+      user: user,
     };
 
     signIn(request);
@@ -57,7 +60,6 @@ export const Login = () => {
 
   return (
     <Container>
-      <Blob />
       <Form onSubmit={handleSubmit}>
         <h1>Acessar conta</h1>
         <h2>Login</h2>
@@ -96,7 +98,6 @@ export const Login = () => {
           </div>
         </span>
       </Form>
-      {/* <button onClick={() => showError()}>n</button> */}
     </Container>
   );
 };

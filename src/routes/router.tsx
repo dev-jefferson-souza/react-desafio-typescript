@@ -5,5 +5,5 @@ import { PublicRoute } from "./public.route";
 
 export const Router = () => {
   const { user } = useContext(AuthContext);
-  return user == null ? <PrivateRoute /> : <PublicRoute />;
+  return user == null ? <PublicRoute /> : <PrivateRoute />;
 };
