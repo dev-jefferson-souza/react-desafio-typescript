@@ -6,7 +6,7 @@ import userSkillservice from "../api/services/userSkillService";
 import { AuthContextType, AuthProviderProps } from "../models/authContext";
 import { signInProps } from "../models/signIn";
 import { userModel } from "../models/userModel";
-import { userSkillModel } from "../models/userSkill";
+import { userSkillFromUser } from "../models/userSkill";
 
 const LOCAL_STORAGE_TOKEN_KEY = "@neki-desafio-token";
 const LOCAL_STORAGE_USER_KEY = "@neki-desafio-user";
@@ -19,6 +19,7 @@ export const AuthContext = createContext<AuthContextType>({
   signIn: async () => {},
   getUsersSkillsUpdated: async () => {},
   usersSkills: null,
+  setUserSkills: () => {},
 });
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -29,7 +30,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<userModel | null>(() =>
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_KEY) || "null")
   );
-  const [usersSkills, setUserSkills] = useState<userSkillModel[]>([]);
+  const [usersSkills, setUserSkills] = useState<userSkillFromUser[] | null>(
+    null
+  );
 
   useEffect(() => {
     token !== null
@@ -59,13 +62,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }
 
   async function getUsersSkillsUpdated() {
-    const response = await userSkillservice.userSkillGETALL();
     try {
-      const unfilteredUsersSkills: userSkillModel[] = response.data;
-      const filteredUsersSkill = unfilteredUsersSkills.filter(
-        (uSkill) => uSkill.user?.id === user?.id
+      const response = await userSkillservice.userSkillGetSkillFromUser(
+        user?.id || 0
       );
-      setUserSkills(filteredUsersSkill);
+      setUserSkills(response.data);
     } catch (e) {
       console.log(e);
       Notify.failure("Houve um problema ao carregar as userSkills");
@@ -82,6 +83,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         signIn,
         getUsersSkillsUpdated,
         usersSkills,
+        setUserSkills,
       }}
     >
       {children}

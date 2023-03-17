@@ -2,7 +2,10 @@ import { Notify } from "notiflix";
 import { useContext, useState } from "react";
 import userSkillservice from "../../api/services/userSkillService";
 import { AuthContext } from "../../context/AuthContext";
-import { userSkillModel, userSkillUpdateModel } from "../../models/userSkill";
+import {
+  userSkillFromUser,
+  userSkillUpdateModel,
+} from "../../models/userSkill";
 import {
   ButtonHandleSkill,
   CardContainer,
@@ -12,7 +15,7 @@ import {
 } from "./styles";
 
 interface Props {
-  userSkill: userSkillModel;
+  userSkill: userSkillFromUser;
 }
 
 export const UserSkillCard = ({ userSkill }: Props) => {
@@ -35,7 +38,7 @@ export const UserSkillCard = ({ userSkill }: Props) => {
     try {
       await userSkillservice.userSkillUPDATE(userSkill.id, userSkillUpdated);
       getUsersSkillsUpdated();
-      Notify.success(`${userSkill.skill.name} atualizado com sucesso!`);
+      Notify.success(`${userSkill.name} atualizado com sucesso!`);
     } catch (err) {
       console.log(err);
       Notify.failure("Ops... Não foi possível atualizar essa habilidade");
@@ -44,7 +47,7 @@ export const UserSkillCard = ({ userSkill }: Props) => {
   async function removeUserSkill() {
     try {
       await userSkillservice.userSkillDELETE(userSkill.id);
-      Notify.success(`${userSkill.skill.name} removido com sucesso!`);
+      Notify.success(`${userSkill.name} removido com sucesso!`);
       getUsersSkillsUpdated();
     } catch (err) {
       console.log(err);
@@ -62,9 +65,9 @@ export const UserSkillCard = ({ userSkill }: Props) => {
 
   return (
     <CardContainer>
-      <h1>{userSkill.skill.name}</h1>
-      <img src={userSkill.skill.image_url} alt="" />
-      <p>{userSkill.skill.description}</p>
+      <h1>{userSkill.name}</h1>
+      <img src={userSkill.imageUrl} alt="" />
+      <p>{userSkill.description}</p>
       <LastBox>
         <span>
           <MinusButton onClick={decreaseLevel} />

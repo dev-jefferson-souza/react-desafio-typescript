@@ -14,6 +14,10 @@ function userSkillGET(id: number) {
   return api.get(uri + id);
 }
 
+function userSkillGetSkillFromUser(id: number) {
+  return api.get(uri + "user/" + id);
+}
+
 function userSkillPOST(userSkill: userSkillPostModel) {
   return api.post(uri, userSkill);
 }
@@ -32,5 +36,6 @@ const userSkillservice = {
   userSkillPOST,
   userSkillUPDATE,
   userSkillDELETE,
+  userSkillGetSkillFromUser,
 };
 export default userSkillservice;

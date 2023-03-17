@@ -11,8 +11,13 @@ import {
 } from "./styles";
 
 export const Home = () => {
-  const { setUser, setToken, usersSkills, getUsersSkillsUpdated } =
-    useContext(AuthContext);
+  const {
+    setUser,
+    setToken,
+    usersSkills,
+    getUsersSkillsUpdated,
+    setUserSkills,
+  } = useContext(AuthContext);
 
   useEffect(() => {
     getUsersSkillsUpdated();
@@ -22,6 +27,7 @@ export const Home = () => {
     localStorage.clear();
     setUser(null);
     setToken(null);
+    setUserSkills(null);
   }
 
   return (
