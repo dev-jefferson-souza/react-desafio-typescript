@@ -15,6 +15,7 @@ export const Container = styled.div`
 
   h1 {
     margin-bottom: 28px;
+    z-index: 1;
   }
 
   h2 {
@@ -24,6 +25,7 @@ export const Container = styled.div`
   }
 `;
 export const LogoutIcon = styled(RiLogoutCircleRLine)`
+  z-index: 1;
   position: absolute;
   right: 32px;
   top: 32px;
@@ -61,15 +63,33 @@ export const OpenModalIcon = styled(AiOutlineAppstore)`
 `;
 
 export const UserSkillsContainer = styled.main`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   border-radius: 8px;
   padding: 16px;
   margin: auto;
   width: 100%;
+  max-height: 90%;
   min-height: 90%;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.85);
-  background: rgba(10, 10, 10, 0.75);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
 
-  z-index: 1;
+  div {
+    display: flex;
+    overflow-x: scroll;
+    min-width: 100%;
+    gap: 24px;
+
+    ::-webkit-scrollbar {
+      height: 8px;
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: ${(props) => props.theme["gray-900"]};
+    }
+    ::-webkit-scrollbar-thumb {
+      background: ${(props) => props.theme["gray-700"]};
+      border-radius: 100px;
+    }
+  }
 `;

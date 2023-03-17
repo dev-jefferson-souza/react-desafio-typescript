@@ -22,22 +22,14 @@ export const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<userModel | null>(null);
+  const [token, setToken] = useState<string | null>(
+    () => localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY) || null
+  );
+
+  const [user, setUser] = useState<userModel | null>(() =>
+    JSON.parse(localStorage.getItem(LOCAL_STORAGE_USER_KEY) || "null")
+  );
   const [usersSkills, setUserSkills] = useState<userSkillModel[]>([]);
-
-  useEffect(() => {
-    async function loadStorageData() {
-      const storedToken = await localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
-      const storedUser = await localStorage.getItem(LOCAL_STORAGE_USER_KEY);
-      if (storedToken && storedUser) {
-        setToken(storedToken);
-        setUser(JSON.parse(storedUser));
-      }
-    }
-
-    loadStorageData();
-  }, []);
 
   useEffect(() => {
     token !== null

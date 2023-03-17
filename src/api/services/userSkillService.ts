@@ -1,4 +1,7 @@
-import { userSkillModel, userSkillUpdateModel } from "../../models/userSkill";
+import {
+  userSkillPostModel,
+  userSkillUpdateModel,
+} from "../../models/userSkill";
 import { api } from "../api";
 
 const uri = "/userSkill/";
@@ -11,7 +14,7 @@ function userSkillGET(id: number) {
   return api.get(uri + id);
 }
 
-function userSkillPOST(userSkill: userSkillModel) {
+function userSkillPOST(userSkill: userSkillPostModel) {
   return api.post(uri, userSkill);
 }
 

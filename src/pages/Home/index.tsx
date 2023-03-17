@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { SkillsModal } from "../../components/Modal";
+import { UserSkillCard } from "../../components/UserSkillCard";
 import { AuthContext } from "../../context/AuthContext";
 import {
   Container,
@@ -10,7 +11,12 @@ import {
 } from "./styles";
 
 export const Home = () => {
-  const { setUser, setToken } = useContext(AuthContext);
+  const { setUser, setToken, usersSkills, getUsersSkillsUpdated } =
+    useContext(AuthContext);
+
+  useEffect(() => {
+    getUsersSkillsUpdated();
+  }, []);
 
   function logout() {
     localStorage.clear();
@@ -30,6 +36,11 @@ export const Home = () => {
       </Dialog.Root>
       <UserSkillsContainer>
         <h1>Essas são suas habilidades</h1>
+        <div>
+          {usersSkills?.map((userSkill) => (
+            <UserSkillCard userSkill={userSkill} key={userSkill.id} />
+          ))}
+        </div>
       </UserSkillsContainer>
     </Container>
   );

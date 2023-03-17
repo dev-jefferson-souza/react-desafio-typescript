@@ -3,31 +3,27 @@ import { useContext } from "react";
 import userSkillservice from "../../../api/services/userSkillService";
 import { AuthContext } from "../../../context/AuthContext";
 import { SkillModel } from "../../../models/skillModel";
-import { userSkillModel } from "../../../models/userSkill";
+import { userSkillPostModel } from "../../../models/userSkill";
 import { RoundedButton } from "../../Buttons/RoundedButton";
 import { ModalsCardContainer } from "./styles";
 
-export const ModalsCard = ({
-  id,
-  name,
-  version,
-  description,
-  image_url,
-}: SkillModel) => {
+interface Props {
+  skill: SkillModel;
+}
+
+export const ModalsCard = ({ skill }: Props) => {
   const { user } = useContext(AuthContext);
 
   async function addToUserSkill(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const newUserSkill: userSkillModel = {
-      skill: { id: id },
+    const newUserSkill: userSkillPostModel = {
+      skill: { id: skill.id },
       user: { id: user?.id || 0 },
     };
 
     try {
-      console.log(user);
-      const response = await userSkillservice.userSkillPOST(newUserSkill);
-      console.log(response.status);
-      console.log(response.data);
+      await userSkillservice.userSkillPOST(newUserSkill);
+      Notify.success(`${skill.name} adicionado com sucesso!`);
     } catch (err) {
       console.log(err);
       Notify.failure("Não foi possível adicionar a skill");
@@ -36,10 +32,10 @@ export const ModalsCard = ({
 
   return (
     <ModalsCardContainer onSubmit={addToUserSkill}>
-      <h3>{name}</h3>
-      <img src={image_url} alt="" />
-      <h4>{version}</h4>
-      <p>{description}</p>
+      <h3>{skill.name}</h3>
+      <img src={skill.image_url} alt="" />
+      <h4>{skill.version}</h4>
+      <p>{skill.description}</p>
       <span>
         <RoundedButton
           type="submit"

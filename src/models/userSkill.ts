@@ -18,6 +18,11 @@ export interface userSkillModel {
   updatedAt: string;
 }
 
+export interface userSkillPostModel {
+  user: user;
+  skill: skill;
+}
+
 export interface userSkillUpdateModel {
   knowledgeLevel: number;
 }

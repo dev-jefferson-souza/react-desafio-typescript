@@ -45,14 +45,7 @@ export const SkillsModal = () => {
         <CloseButton />
         <div>
           {skillList.map((skill) => (
-            <ModalsCard
-              description={skill.description}
-              image_url={skill.image_url}
-              name={skill.name}
-              version={skill.version}
-              id={skill.id}
-              key={skill.id}
-            />
+            <ModalsCard skill={skill} key={skill.id} />
           ))}
         </div>
         <p
