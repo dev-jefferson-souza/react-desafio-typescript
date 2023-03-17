@@ -19,7 +19,7 @@ function userSkillPOST(userSkill: userSkillPostModel) {
 }
 
 function userSkillUPDATE(id: number, userSkill: userSkillUpdateModel) {
-  return api.put(uri + id, userSkill);
+  return api.patch(uri + id, userSkill);
 }
 
 function userSkillDELETE(id: number) {

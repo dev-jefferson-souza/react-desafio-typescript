@@ -2,7 +2,7 @@ import { Notify } from "notiflix";
 import { useContext, useState } from "react";
 import userSkillservice from "../../api/services/userSkillService";
 import { AuthContext } from "../../context/AuthContext";
-import { userSkillModel } from "../../models/userSkill";
+import { userSkillModel, userSkillUpdateModel } from "../../models/userSkill";
 import {
   ButtonHandleSkill,
   CardContainer,
@@ -27,6 +27,20 @@ export const UserSkillCard = ({ userSkill }: Props) => {
     newLevel == 0 ? setNewLevel(0) : setNewLevel(newLevel - 1);
   };
 
+  const userSkillUpdated: userSkillUpdateModel = {
+    knowledgeLevel: newLevel,
+  };
+
+  async function updateUserSkill() {
+    try {
+      await userSkillservice.userSkillUPDATE(userSkill.id, userSkillUpdated);
+      getUsersSkillsUpdated();
+      Notify.success(`${userSkill.skill.name} atualizado com sucesso!`);
+    } catch (err) {
+      console.log(err);
+      Notify.failure("Ops... Não foi possível atualizar essa habilidade");
+    }
+  }
   async function removeUserSkill() {
     try {
       await userSkillservice.userSkillDELETE(userSkill.id);
@@ -42,7 +56,7 @@ export const UserSkillCard = ({ userSkill }: Props) => {
     {
       newLevel === userSkill.knowledgeLevel
         ? removeUserSkill()
-        : alert("diferente");
+        : updateUserSkill();
     }
   }
 

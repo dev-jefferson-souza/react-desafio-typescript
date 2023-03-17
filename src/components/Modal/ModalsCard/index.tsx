@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const ModalsCard = ({ skill }: Props) => {
-  const { user } = useContext(AuthContext);
+  const { user, getUsersSkillsUpdated } = useContext(AuthContext);
 
   async function addToUserSkill(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -23,6 +23,7 @@ export const ModalsCard = ({ skill }: Props) => {
 
     try {
       await userSkillservice.userSkillPOST(newUserSkill);
+      getUsersSkillsUpdated();
       Notify.success(`${skill.name} adicionado com sucesso!`);
     } catch (err) {
       console.log(err);
