@@ -20,7 +20,9 @@ export const Home = () => {
   } = useContext(AuthContext);
 
   useEffect(() => {
-    getUsersSkillsUpdated();
+    setTimeout(() => {
+      getUsersSkillsUpdated();
+    }, 100);
   }, []);
 
   function logout() {
