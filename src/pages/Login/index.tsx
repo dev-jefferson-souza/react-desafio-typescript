@@ -77,7 +77,7 @@ export const Login = () => {
         />
         <Spacer y="12px" x="0px" />
         <Checkbox
-          label="Salvar senha"
+          label="Lembrar de mim"
           isChecked={savePassword}
           onChange={handleSavePasswordChange}
           backgroundColor={savePassword ? "#007bff" : "#fff"}

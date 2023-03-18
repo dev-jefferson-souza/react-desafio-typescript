@@ -58,7 +58,7 @@ export const OpenModalIcon = styled(AiOutlineAppstore)`
 
   &:hover {
     color: #721c24;
-    transform: scale(1.15) rotate(225deg);
+    transform: scale(1.1) rotate(135deg);
   }
 `;
 

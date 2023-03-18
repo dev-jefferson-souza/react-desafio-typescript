@@ -33,23 +33,23 @@ export const Home = () => {
   }
 
   return (
-    <Container>
-      <LogoutIcon onClick={logout} title="Sair da conta" />
-      <Dialog.Root>
+    <Dialog.Root>
+      <Container>
+        <LogoutIcon onClick={logout} title="Sair da conta" />
         <Dialog.Trigger asChild>
           <OpenModalIcon title="Abrir modal" />
         </Dialog.Trigger>
 
         <SkillsModal />
-      </Dialog.Root>
-      <UserSkillsContainer>
-        <h1>Essas são suas habilidades</h1>
-        <div>
-          {usersSkills?.map((userSkill) => (
-            <UserSkillCard userSkill={userSkill} key={userSkill.id} />
-          ))}
-        </div>
-      </UserSkillsContainer>
-    </Container>
+        <UserSkillsContainer>
+          <h1>Essas são suas habilidades</h1>
+          <div>
+            {usersSkills?.map((userSkill) => (
+              <UserSkillCard userSkill={userSkill} key={userSkill.id} />
+            ))}
+          </div>
+        </UserSkillsContainer>
+      </Container>
+    </Dialog.Root>
   );
 };
